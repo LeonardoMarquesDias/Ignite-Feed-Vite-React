@@ -1,33 +1,40 @@
+import { format, formatDistanceToNow } from 'date-fns';
+import enGB from 'date-fns/locale/en-GB';
 import { Avatar } from './Avatar';
 import { Comment } from './Comment';
+
 import styles from './Post.module.css';
 
-export function Post() {
+export function Post({author, publishedAt}) {
+  const publishDateFormatted = format(publishedAt, "d'th' LLLL 'at' HH:mm'h'", {
+    locale: enGB,
+  })
+
+  const publishedDateRelativeToNow = formatDistanceToNow(publishedAt, {
+    locale: enGB,
+    addSuffix: true,
+  })
+ 
   return (
     <article className={styles.post}>
       <header>
         <div className={styles.author}>
           
-          <Avatar src="https://github.com/LeonardoMarquesDias.png" />
+          <Avatar src={author.avatarUrl} />
         
           <div className={styles.authorInfo}>
-            <strong>Lenardo Dias</strong>
-            <span>Web Developer</span>
+            <strong>{author.name}</strong>
+            <span>{author.role}</span>
           </div>
         </div>
 
-        <time title="11 de Maio às 08:13h" dateTime="2022-05-11 08:13:30">Publicado hà 1h</time>
+        <time title={publishDateFormatted} dateTime={publishedAt.toISOString()}>
+          {publishedDateRelativeToNow}
+        </time>
       </header>
 
       <div className={styles.content}>
-        <p>Lorem Ipsum has been the industry's standard dummy text ever since the 1500s,</p>
-        <p>when an unknown printer took a galley of type and scrambled it to make a type specimen book.</p>
-        <p><a href="">Leonardo.dias/developer</a></p>
-        <p>
-          <a href="">#newprojects </a>
-          <a href="">#nlw </a>
-          <a href="">#rocketseat </a>
-        </p>
+        {author.content}
       </div> 
 
       <form className={styles.commentForm}>
