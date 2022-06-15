@@ -22,7 +22,7 @@ export function App() {
         { type: 'paragraph', content: 'Lorem Ipsum has been the industrys standard dummy text ever since the 1500s',},
         { type: 'link', content: 'diego.fernandes/frontend'},
       ],
-      publishDate: new Date('2022-06-13 15:00:00'),
+      publishedAt: new Date('2022-06-13 15:00:00'),
     },
     { 
       id: 2,
@@ -36,7 +36,7 @@ export function App() {
         { type: 'paragraph', content: 'Lorem Ipsum has been the industrys standard dummy text ever since the 1500s',},
         { type: 'link', content: 'leonardo.dias/frontend'},
       ],
-      publishDate: new Date('2022-06-010 15:30:00'),
+      publishedAt: new Date('2022-06-010 15:30:00'),
     },
   ]
 
@@ -52,7 +52,7 @@ export function App() {
               <Post 
                 author={post.author}
                 content={post.content}
-                publishDate={post.publishDate}
+                publishedAt={post.publishedAt}
               />
             )
           })}
