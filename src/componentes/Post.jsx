@@ -1,3 +1,4 @@
+import { useState} from 'react';
 import { format, formatDistanceToNow } from 'date-fns';
 import enGB from 'date-fns/locale/en-GB';
 import { Avatar } from './Avatar';
@@ -5,7 +6,12 @@ import { Comment } from './Comment';
 
 import styles from './Post.module.css';
 
-export function Post({author, publishedAt}) {
+export function Post({author, publishedAt, content}) {
+  const [comments, setComments] = useState([
+    1,
+    2,
+  ])
+
   const publishDateFormatted = format(publishedAt, "d'th' LLLL 'at' HH:mm'h'", {
     locale: enGB,
   })
@@ -14,6 +20,12 @@ export function Post({author, publishedAt}) {
     locale: enGB,
     addSuffix: true,
   })
+
+  function handleCreateNewComment() {
+    event.preventDefault() 
+
+    setComments([...comments, comments.length + 1]);
+  }
  
   return (
     <article className={styles.post}>
@@ -34,10 +46,16 @@ export function Post({author, publishedAt}) {
       </header>
 
       <div className={styles.content}>
-        {author.content}
+        {content.map(line => {
+          if (line.type === 'paragraph') {
+            return <p>{line.content}</p>;
+          } else if (line.type === 'link') {
+            return <p><a href="#">{line.content}</a></p>;
+          }
+        })}
       </div> 
 
-      <form className={styles.commentForm}>
+      <form onSubmit={handleCreateNewComment} className={styles.commentForm}>
         <strong>Your feedback</strong>
 
         <textarea
@@ -50,9 +68,9 @@ export function Post({author, publishedAt}) {
       </form>
 
       <dic className={styles.commentList}>
-        <Comment />
-        <Comment />
-        <Comment />
+        {comments.map(comment => {
+          return <Comment />
+        })}
       </dic>
     </article>
   );
